@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <style>
+      .box {
+        display: flex;
+        width: 250px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .slider-label {
+        text-align: center;
+        margin-bottom: 4px;
+      }
+      #commentsSlider {
+        width: 200px;
+      }
+      #ratingsSlider {
+        width: 200px;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box">
+      <h4 id="commentsLabel" class="slider-label">
+        Number of comments to display: 3
+      </h4>
+      <div>
+        <input
+          id="commentsSlider"
+          type="range"
+          min="1"
+          max="10"
+          value="3"
+          step="1"
+        />
+      </div>
+      <h4 id="ratingsLabel" class="slider-label">
+        Filter out videos below: 0%
+      </h4>
+      <input
+        id="ratingsSlider"
+        type="range"
+        min="0"
+        max="100"
+        value="0"
+        step="1"
+      />
+      <script src="popup.js"></script>
+    </div>
+  </body>
+</html>
