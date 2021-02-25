@@ -19,13 +19,15 @@ The Youtube Preview extension allows you preview the ratings and top-voted comme
 git clone https://github.com/jy-whatthetech/yt-ratings.git
 ```
 
-1a. TODO: Get API key and put it in config.js
+2. Obtain a Youtube API key and put it in config.js file:
+  2a. Follow the instructions here to obtain an API Key for Youtube: https://developers.google.com/youtube/registering_an_application
+  2b. create a file named "config.js" and put it under the root folder of the extensions
 
-2. Go to chrome://extensions/
+3. Go to chrome://extensions/
 
-3. Select the "Load Unpacked" button, and choose the "yt-ratings" folder.
+4. Select the "Load Unpacked" button, and choose the "yt-ratings" folder.
 
-4. You should now see "Youtube Preview" in your list of loaded extensions.
+5. You should now see "Youtube Preview" in your list of loaded extensions.
 
-5. Browse Youtube and start using!
+6. Browse Youtube and start using!
 
