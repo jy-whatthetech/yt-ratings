@@ -261,67 +261,64 @@ chrome.runtime.onMessage.addListener(async function(msg, sender, sendResponse) {
       Object.keys(videoIdToDivs)
     );
 
-    let x = 1; // DEBUG PURPOSES ONLY
-    if (x === 1) {
-      for (let compactedVideoIds of compactedVideoIdList) {
-        await processVideosList(compactedVideoIds);
-      }
+    for (let compactedVideoIds of compactedVideoIdList) {
+      await processVideosList(compactedVideoIds);
+    }
 
-      // insert the new divs with the video information
-      for (let videoId of Object.keys(videoIdToDivs)) {
-        for (let parentDiv of videoIdToDivs[videoId]) {
-          const videoInfo = videoInformation[videoId];
-          if (!videoInfo) {
-            continue;
-          }
-
-          // remove videos with < 60% like percentage
-          if (videoInfo.likePercentage < ratingsToFilter) {
-            parentDiv.remove();
-            continue;
-          }
-
-          const div = document.createElement("div");
-          div.id = videoId;
-          strayDivIds.push(div.id);
-          parentDiv.appendChild(div);
-
-          div.style.position = "absolute";
-          div.style.padding = "3px";
-
-          // set the background color based on like percentage
-          if (videoInfo.likes + videoInfo.dislikes === 0) {
-            div.style.color = "black";
-            div.style.background = "white";
-          } else if (videoInfo.likePercentage >= 90) {
-            div.style.color = "white";
-            div.style.background = "green";
-          } else if (videoInfo.likePercentage >= 60) {
-            div.style.color = "black";
-            div.style.background = "yellow";
-          } else {
-            div.style.color = "white";
-            div.style.background = "red";
-          }
-
-          // set the info on the div
-          div.textContent = `${videoInfo.likes} \\ ${
-            videoInfo.likePercentage
-          }% \\ ${
-            videoInfo.commentCount == -1
-              ? "Comments Disabled"
-              : videoInfo.commentCount
-          }`;
-
-          div.onmouseover = function() {
-            div.title = "Loading comments...";
-            getCommentsForVideo(videoId, videoInfo.commentCount).then(
-              response => {
-                div.title = response;
-              }
-            );
-          };
+    // insert the new divs with the video information
+    for (let videoId of Object.keys(videoIdToDivs)) {
+      for (let parentDiv of videoIdToDivs[videoId]) {
+        const videoInfo = videoInformation[videoId];
+        if (!videoInfo) {
+          continue;
         }
+
+        // remove videos with < 60% like percentage
+        if (videoInfo.likePercentage < ratingsToFilter) {
+          parentDiv.remove();
+          continue;
+        }
+
+        const div = document.createElement("div");
+        div.id = videoId;
+        strayDivIds.push(div.id);
+        parentDiv.appendChild(div);
+
+        div.style.position = "absolute";
+        div.style.padding = "3px";
+
+        // set the background color based on like percentage
+        if (videoInfo.likes + videoInfo.dislikes === 0) {
+          div.style.color = "black";
+          div.style.background = "white";
+        } else if (videoInfo.likePercentage >= 90) {
+          div.style.color = "white";
+          div.style.background = "green";
+        } else if (videoInfo.likePercentage >= 60) {
+          div.style.color = "black";
+          div.style.background = "yellow";
+        } else {
+          div.style.color = "white";
+          div.style.background = "red";
+        }
+
+        // set the info on the div
+        div.textContent = `${videoInfo.likes} \\ ${
+          videoInfo.likePercentage
+        }% \\ ${
+          videoInfo.commentCount == -1
+            ? "Comments Disabled"
+            : videoInfo.commentCount
+        }`;
+
+        div.onmouseover = function() {
+          div.title = "Loading comments...";
+          getCommentsForVideo(videoId, videoInfo.commentCount).then(
+            response => {
+              div.title = response;
+            }
+          );
+        };
       }
     }
   }
