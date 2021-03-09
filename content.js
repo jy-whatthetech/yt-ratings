@@ -248,8 +248,11 @@ chrome.runtime.onMessage.addListener(async function(msg, sender, sendResponse) {
       const videoId = stripLink(anchor.href);
       if (!videoId) continue;
 
-      const parentDiv = anchor.closest("div");
-      if (parentDiv.id !== "dismissable") continue;
+      // select the closest parent div with the 'dismissible' id as this is common between the
+      // main page and the search page
+      // Note: The dismissible aspect conveniently also allows us to filter out the videos below a certain rating
+      const parentDiv = anchor.closest("#dismissible");
+      if (parentDiv === null) continue;
 
       if (!videoIdToDivs[videoId]) {
         videoIdToDivs[videoId] = [];
@@ -273,7 +276,7 @@ chrome.runtime.onMessage.addListener(async function(msg, sender, sendResponse) {
           continue;
         }
 
-        // remove videos with < 60% like percentage
+        // remove videos with less than the user-set like percentage
         if (videoInfo.likePercentage < ratingsToFilter) {
           parentDiv.remove();
           continue;
